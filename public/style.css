@@ -1,0 +1,210 @@
+/* =========================================================
+   Token system
+   Color
+     --bg-deep:      #14161B  page background
+     --shell:        #20242C  calculator body
+     --shell-edge:   #2A2F3A  bevel / borders
+     --lcd-panel:    #0B1410  display backing
+     --phosphor:     #6FFFA0  main digit glow
+     --phosphor-dim: #3E8F62  secondary / history line
+     --amber-op:     #FFB454  operator key accent
+     --key-neutral:  #343A46  digit key face
+     --key-equals:   #4FE38A  equals key
+
+   Type
+     Display + button digits: 'JetBrains Mono' (utility/data face)
+     Labels & footer copy:    'Inter' (body face)
+   ========================================================= */
+
+:root {
+  --bg-deep: #14161b;
+  --shell: #20242c;
+  --shell-edge: #2a2f3a;
+  --lcd-panel: #0b1410;
+  --phosphor: #6fffa0;
+  --phosphor-dim: #3e8f62;
+  --amber-op: #ffb454;
+  --key-neutral: #343a46;
+  --key-equals: #4fe38a;
+
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg-deep);
+  background-image: radial-gradient(circle at 50% 0%, #1b1f27 0%, var(--bg-deep) 65%);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 32px 16px;
+  font-family: var(--font-sans);
+}
+
+.calculator {
+  width: min(360px, 100%);
+  background: var(--shell);
+  border-radius: 22px;
+  padding: 20px;
+  border: 1px solid var(--shell-edge);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 30px 60px -20px rgba(0, 0, 0, 0.65);
+}
+
+/* ---------- Display ---------- */
+
+.display {
+  background: var(--lcd-panel);
+  border-radius: 14px;
+  padding: 18px 18px 14px;
+  margin-bottom: 16px;
+  border: 1px solid #000;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.display::after {
+  /* subtle scanline texture, purely decorative */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.025) 0px,
+    rgba(255, 255, 255, 0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}
+
+.display__history {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--phosphor-dim);
+  min-height: 1.2em;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.display__result {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 2.6rem;
+  letter-spacing: 0.02em;
+  color: var(--phosphor);
+  text-align: right;
+  text-shadow: 0 0 10px rgba(111, 255, 160, 0.55), 0 0 2px rgba(111, 255, 160, 0.8);
+  white-space: nowrap;
+  overflow-x: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Keys ---------- */
+
+.keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.key {
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  font-weight: 600;
+  height: 60px;
+  border-radius: 14px;
+  border: 1px solid var(--shell-edge);
+  cursor: pointer;
+  color: #eef1f5;
+  background: var(--key-neutral);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.08s ease;
+}
+
+.key:hover {
+  filter: brightness(1.08);
+}
+
+.key:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.key:focus-visible {
+  outline: 2px solid var(--phosphor);
+  outline-offset: 2px;
+}
+
+.key--func {
+  background: #2b303b;
+  color: #b9c0cc;
+}
+
+.key--op {
+  background: #3a3220;
+  color: var(--amber-op);
+}
+
+.key--equals {
+  grid-column: span 2;
+  background: var(--key-equals);
+  color: #0b1410;
+  font-size: 1.3rem;
+}
+
+.key--zero {
+  grid-column: span 1;
+}
+
+.status {
+  margin: 10px 2px 0;
+  min-height: 1em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #c0584f;
+  text-align: right;
+}
+
+.credit {
+  font-size: 0.78rem;
+  color: #5a6172;
+  letter-spacing: 0.02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .key {
+    transition: none;
+  }
+  .key:active {
+    transform: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .display__result {
+    font-size: 2.1rem;
+  }
+  .key {
+    height: 52px;
+    font-size: 1rem;
+  }
+}
