@@ -22,7 +22,7 @@ jobs:
       - name: docker push
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} && docker push nathirkasim/node:latest
       - name: Deploy to aws ec2
-        uses: Castlenine/aws-ssm-run-command@v1
+        uses: Castlenine/aws-ssm-command@v1
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
