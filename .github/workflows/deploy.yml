@@ -25,8 +25,8 @@ jobs:
       - name: Deploy to aws ec2
         uses: Castlenine/aws-ssm-command@v1
         with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: 'us-east-1'
           instance_ids: 'i-06a448fb856df07a4'
           commands: |
