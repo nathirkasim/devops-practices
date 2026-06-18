@@ -15,11 +15,11 @@ jobs:
           node-version: '14'
       - name: Install dependencies
         run: npm install
-      - name: Build the app
-        run: npm run web
+      - name: run application
+        run : npm run web && sleep 10  && kill -9 $(pidof node)
       - name: docker build
         run: docker build -t nathirkasim/node:latest .
-      - name: docker push
+      - name: docker login 
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} && docker push nathirkasim/node:latest
       - name: Deploy to aws ec2
         uses: Castlenine/aws-ssm-command@v1
