@@ -16,7 +16,8 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: run application
-        run : npm run web && sleep 10  && kill -9 $(pidof node)
+        run : npm run web & 
+              sleep 5 && kill -9 $(pidof node)
       - name: docker build
         run: docker build -t nathirkasim/node:latest .
       - name: docker login 
